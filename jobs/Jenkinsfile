@@ -1,0 +1,38 @@
+pipeline {
+    agent { 
+        node {
+            label 'docker-agent-alpine'
+            }
+      }
+    triggers {
+        pollSCM '*/5 * * * *'
+    }
+    stages {
+        stage('Build') {
+            steps {
+                echo "Building.."
+                sh '''
+                cat /etc/*-release
+                '''
+            }
+        }
+        stage('Test') {
+            steps {
+                echo "Testing.."
+                sh '''
+                chmod +x hi.sh
+                ./hi.sh
+                python3 -V
+                '''
+            }
+        }
+        stage('Deliver') {
+            steps {
+                echo 'Deliver....'
+                sh '''
+                echo "doing delivery stuff.."
+                '''
+            }
+        }
+    }
+}

@@ -1,0 +1,26 @@
+env.DOCKER_HOST = '172.18.0.2:2375'
+env.DOCKER_TLS_VERIFY = ''
+node('built-in') { // use whatever node name or label you want
+    stage('get env') {
+        sh 'env'
+    }
+}
+
+pipeline {
+    agent { 
+        docker { 
+            image 'maven:3.9.6-eclipse-temurin-17-alpine' 
+//            registryUrl 'https://hub.docker.com/'
+        } 
+    }
+//    environment {
+//      DOCKER_HOST = sh(script: 'hostname -f', returnStdout: true) 
+//    }
+    stages {
+        stage('build') {
+            steps {
+                sh 'mvn --version'
+            }
+        }
+    }
+}
