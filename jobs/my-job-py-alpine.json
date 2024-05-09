@@ -1,0 +1,43 @@
+//node('built-in') {
+//    stage('check gh project') {
+//        sh '''
+//        pwd
+//        cd /var/jenkins_home/workspace/my-job-3-alpine/
+//        ls -l
+//        #git clone https://github.com/iamrealbuddy/mci.git
+//        cd mci
+//        #git checkout main
+//        ls -l
+//        '''
+//    }
+//}
+
+pipeline {
+    agent { 
+        dockerfile {
+            filename 'mci/docker/df-agent-alpine-py'
+        } 
+    }
+    stages {
+        stage('build') {
+            steps {
+                echo "Building...alpine-agent"
+                sh '''
+                cat /etc/*-release
+                '''
+            }
+        }
+        stage('test') {
+            steps {
+                echo "Testing...alpine-agent"
+                sh '''
+                pwd
+                ls -l
+                chmod +x mci/sh/hi.sh
+                ./mci/sh/hi.sh
+                python3 -V
+                '''
+            }
+        }
+    }
+}
