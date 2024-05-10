@@ -14,50 +14,50 @@
   <properties/>
   <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@3894.vd0f0248b_a_fc4">
     <script>node {
-    sh &apos;&apos;&apos;
+    sh '''
         echo before...;pwd;ls -l
-    &apos;&apos;&apos;
+    '''
     deleteDir()
-    sleep(time: 5, unit: &apos;SECONDS&apos;)
-    sh &apos;&apos;&apos;
+    sleep(time: 5, unit: 'SECONDS')
+    sh '''
         echo after...;pwd;ls -l
-    &apos;&apos;&apos;
-    dir(&apos;mci&apos;){
+    '''
+    dir('mci'){
         checkout scmGit(
-            branches: [[name: &apos;main&apos;]],
-            userRemoteConfigs: [[url: &apos;https://github.com/iamrealbuddy/mci.git/&apos;]])
+            branches: [[name: 'main']],
+            userRemoteConfigs: [[url: 'https://github.com/iamrealbuddy/mci.git/']])
     }
-    sleep(time: 5, unit: &apos;SECONDS&apos;)
-    sh &apos;&apos;&apos;
+    sleep(time: 5, unit: 'SECONDS')
+    sh '''
         pwd;ls -l
-    &apos;&apos;&apos;
+    '''
 }
 
 pipeline {
     agent { 
         dockerfile {
-            filename &apos;mci/docker/df-agent-debian-py&apos;
+            filename 'mci/docker/df-agent-debian-py'
         } 
     }
     stages {
-        stage(&apos;build&apos;) {
+        stage('build') {
             steps {
                 echo &quot;Building...debian-agent&quot;
-                sh &apos;&apos;&apos;
+                sh '''
                 cat /etc/*-release
-                &apos;&apos;&apos;
+                '''
             }
         }
-        stage(&apos;test&apos;) {
+        stage('test') {
             steps {
                 echo &quot;Testing...debian-agent&quot;
-                sh &apos;&apos;&apos;
+                sh '''
                 pwd
                 ls -l
                 chmod +x mci/scripts/hi.sh
                 ./mci/scripts/hi.sh
                 python3 -V
-                &apos;&apos;&apos;
+                '''
             }
         }
     }
