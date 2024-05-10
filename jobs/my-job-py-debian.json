@@ -1,0 +1,57 @@
+node {
+    sh '''
+        echo before...;pwd;ls -l
+    '''
+    deleteDir()
+    waitUntil {
+	    echo 'wait...'
+        if (!fileExists('mci/')) {
+		    echo 'mci not found...'
+            return true
+        }
+    }
+    sh '''
+        echo after...;pwd;ls -l
+    '''
+    checkout scmGit(
+        branches: [[name: 'main']],
+        extensions: [[$class: 'RelativeTargetDirectory', 
+            relativeTargetDir: 'mci']],
+        userRemoteConfigs: [[url: 'https://github.com/iamrealbuddy/mci.git/']])
+    waitUntil {
+        fileExists('mci/docker/df-agent-debian-py')
+    }
+    sh '''
+        pwd;ls -l
+    '''
+}
+
+pipeline {
+    agent { 
+        dockerfile {
+            filename 'mci/docker/df-agent-debian-py'
+        } 
+    }
+    stages {
+        stage('build') {
+            steps {
+                echo &quot;Building...debian-agent&quot;
+                sh '''
+                cat /etc/*-release
+                '''
+            }
+        }
+        stage('test') {
+            steps {
+                echo &quot;Testing...debian-agent&quot;
+                sh '''
+                pwd
+                ls -l
+                chmod +x mci/scripts/hi.sh
+                ./mci/scripts/hi.sh
+                python3 -V
+                '''
+            }
+        }
+    }
+}

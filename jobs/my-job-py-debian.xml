@@ -11,66 +11,34 @@
   </actions>
   <description></description>
   <keepDependencies>false</keepDependencies>
-  <properties/>
-  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@3894.vd0f0248b_a_fc4">
-    <script>node {
-    sh '''
-        echo before...;pwd;ls -l
-    '''
-    deleteDir()
-    waitUntil {
-	    echo 'wait...'
-        if (!fileExists('mci/')) {
-		    echo 'mci not found...'
-            return true
-        }
-    }
-    sh '''
-        echo after...;pwd;ls -l
-    '''
-    checkout scmGit(
-        branches: [[name: 'main']],
-        extensions: [[$class: 'RelativeTargetDirectory', 
-            relativeTargetDir: 'mci']],
-        userRemoteConfigs: [[url: 'https://github.com/iamrealbuddy/mci.git/']])
-    waitUntil {
-        fileExists('mci/docker/df-agent-debian-py')
-    }
-    sh '''
-        pwd;ls -l
-    '''
-}
-
-pipeline {
-    agent { 
-        dockerfile {
-            filename 'mci/docker/df-agent-debian-py'
-        } 
-    }
-    stages {
-        stage('build') {
-            steps {
-                echo &quot;Building...debian-agent&quot;
-                sh '''
-                cat /etc/*-release
-                '''
-            }
-        }
-        stage('test') {
-            steps {
-                echo &quot;Testing...debian-agent&quot;
-                sh '''
-                pwd
-                ls -l
-                chmod +x mci/scripts/hi.sh
-                ./mci/scripts/hi.sh
-                python3 -V
-                '''
-            }
-        }
-    }
-}</script>
-    <sandbox>true</sandbox>
+  <properties>
+    <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+      <triggers/>
+    </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition" plugin="workflow-cps@3894.vd0f0248b_a_fc4">
+    <scm class="hudson.plugins.git.GitSCM" plugin="git@5.2.1">
+      <configVersion>2</configVersion>
+      <userRemoteConfigs>
+        <hudson.plugins.git.UserRemoteConfig>
+          <url>https://github.com/iamrealbuddy/mci.git</url>
+        </hudson.plugins.git.UserRemoteConfig>
+      </userRemoteConfigs>
+      <branches>
+        <hudson.plugins.git.BranchSpec>
+          <name>*/main</name>
+        </hudson.plugins.git.BranchSpec>
+      </branches>
+      <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+      <submoduleCfg class="empty-list"/>
+      <extensions>
+        <hudson.plugins.git.extensions.impl.RelativeTargetDirectory>
+          <relativeTargetDir>mci</relativeTargetDir>
+        </hudson.plugins.git.extensions.impl.RelativeTargetDirectory>
+      </extensions>
+    </scm>
+    <scriptPath>mci/jobs/my-job-py-debian.json</scriptPath>
+    <lightweight>false</lightweight>
   </definition>
   <triggers/>
   <disabled>false</disabled>
