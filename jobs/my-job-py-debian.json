@@ -35,7 +35,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                echo &quot;Building...debian-agent&quot;
+                echo 'Building...debian-agent'
                 sh '''
                 cat /etc/*-release
                 '''
@@ -43,7 +43,7 @@ pipeline {
         }
         stage('test') {
             steps {
-                echo &quot;Testing...debian-agent&quot;
+                echo 'Testing...debian-agent'
                 sh '''
                 pwd
                 ls -l
