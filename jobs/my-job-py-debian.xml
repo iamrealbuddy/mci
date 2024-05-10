@@ -27,7 +27,11 @@
         extensions: [[$class: 'RelativeTargetDirectory', 
             relativeTargetDir: 'mci']],
         userRemoteConfigs: [[url: 'https://github.com/iamrealbuddy/mci.git/']])
-    sleep(time: 5, unit: 'SECONDS')
+    timeout(time: 10, unit: 'SECONDS') {
+        waitUntil {
+            fileExists('mci/docker/df-agent-debian-py')
+        }
+    }
     sh '''
         pwd;ls -l
     '''
