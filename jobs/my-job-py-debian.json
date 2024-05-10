@@ -1,31 +1,3 @@
-node {
-    sh '''
-        echo before...;pwd;ls -l
-    '''
-    deleteDir()
-    waitUntil {
-	    echo 'wait...'
-        if (!fileExists('mci/')) {
-		    echo 'mci not found...'
-            return true
-        }
-    }
-    sh '''
-        echo after...;pwd;ls -l
-    '''
-    checkout scmGit(
-        branches: [[name: 'main']],
-        extensions: [[$class: 'RelativeTargetDirectory', 
-            relativeTargetDir: 'mci']],
-        userRemoteConfigs: [[url: 'https://github.com/iamrealbuddy/mci.git/']])
-    waitUntil {
-        fileExists('mci/docker/df-agent-debian-py')
-    }
-    sh '''
-        pwd;ls -l
-    '''
-}
-
 pipeline {
     agent { 
         dockerfile {
