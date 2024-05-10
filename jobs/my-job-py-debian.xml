@@ -22,11 +22,11 @@
     sh '''
         echo after...;pwd;ls -l
     '''
-    dir('mci'){
-        checkout scmGit(
-            branches: [[name: 'main']],
-            userRemoteConfigs: [[url: 'https://github.com/iamrealbuddy/mci.git/']])
-    }
+    checkout scmGit(
+        branches: [[name: 'main']],
+        extensions: [[$class: 'RelativeTargetDirectory', 
+            relativeTargetDir: 'mci']],
+        userRemoteConfigs: [[url: 'https://github.com/iamrealbuddy/mci.git/']])
     sleep(time: 5, unit: 'SECONDS')
     sh '''
         pwd;ls -l
