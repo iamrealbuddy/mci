@@ -19,7 +19,9 @@
     '''
     deleteDir()
     waitUntil {
+	    echo wait...
         if (!fileExists('mci/')) {
+		    echo mci not found
             return true
         }
     }
