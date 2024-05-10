@@ -18,7 +18,11 @@
         echo before...;pwd;ls -l
     '''
     deleteDir()
-    sleep(time: 5, unit: 'SECONDS')
+    waitUntil {
+        if (!fileExists('mci/')) {
+            return true
+        }
+    }
     sh '''
         echo after...;pwd;ls -l
     '''
