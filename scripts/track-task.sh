@@ -2,15 +2,16 @@
 #set -x
 if [ -f .pid ]; then
   read pid < .pid
-  echo $pid
+  y=$(ps -p $pid -o comm=)
+  echo PID $pid is $y
   x=1
   while [ $x -le 15 ]
   do
   ps --pid "$pid" >/dev/null
   if [ "$?" -eq 0 ]; then
-    echo "PID $pid exists and is running."
+    echo "PID $y exists and is running."
   else
-    echo "PID $pid does NOT exist."
+    echo "PID $y does NOT exist."
 	break
   fi
   sleep 1
