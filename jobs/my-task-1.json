@@ -38,7 +38,7 @@ pipeline {
                         cd mci/scripts/
                         chmod +x my-task.sh
                         ./my-task.sh &
-                        echo $! &gt; .pid
+                        echo $! > .pid
                         '''
                     }
                 }
