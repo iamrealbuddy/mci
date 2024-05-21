@@ -1,0 +1,44 @@
+node {
+    sh '''
+        echo before...;pwd;ls -l
+    '''
+    deleteDir()
+    waitUntil {
+	    echo 'wait...'
+        if (!fileExists('mci/')) {
+		    echo 'mci not found...'
+            return true
+        }
+    }
+    sh '''
+        echo after...;pwd;ls -l
+    '''
+    checkout scmGit(
+        branches: [[name: 'main']],
+        extensions: [[$class: 'RelativeTargetDirectory', 
+            relativeTargetDir: 'mci']],
+        userRemoteConfigs: [[url: 'https://github.com/iamrealbuddy/mci.git/']])
+    waitUntil {
+        fileExists('mci/scripts/track-task.sh')
+    }
+    sh '''
+        pwd;ls -l
+    '''
+}
+
+pipeline {
+    agent any
+    stages {
+        stage('execute') {
+            steps {
+                echo 'Running task....';
+                sh '''
+                cd mci/scripts/
+                chmod +x my-task.sh
+                ./my-task.sh &
+                echo $! > .pid
+                '''
+            }
+        }
+    }
+}
