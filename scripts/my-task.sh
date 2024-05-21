@@ -8,3 +8,4 @@ do
   sleep 1
   x=$(( $x + 1 ))
 done
+echo done > .done
