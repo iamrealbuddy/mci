@@ -39,9 +39,10 @@ pipeline {
                 echo $! > .pid
                 '''
                 script {
+					ps --help
 	                for (int i = 0; i < 15; ++i) {
                         sh '''
-                        ps `cat .pid`
+                        ps `cat mci/scripts/.pid`
                         '''
 			            sleep 1
                     }
