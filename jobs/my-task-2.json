@@ -60,7 +60,9 @@ node {
     script {
         sh '''
         env
-		curl ${env.BUILD_URL}wfapi/describe
+		echo 1 url is $BUILD_URL
+		echo 2 url is ${BUILD_URL}
+		curl ${BUILD_URL}wfapi/describe
         '''
     }
 }
