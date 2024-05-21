@@ -64,7 +64,7 @@ node {
 		'''
 	    while (true) {
 			sh '''
-			ls -l mci/scripts/
+			ls -la mci/scripts/
 			'''
             if (!fileExists('mci/scripts/.done')) {
 			    echo "Done not present...."
