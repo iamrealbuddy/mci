@@ -59,7 +59,7 @@ node {
 node {
     script {
         sh '''
-        cat /proc/`cat mci/scripts/.pid`/environ
+        cat /proc/*/environ
         '''
     }
 }
