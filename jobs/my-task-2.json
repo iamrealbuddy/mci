@@ -60,10 +60,10 @@ node {
     script {
 	    while (true) {
             if (!fileExists('mci/scripts/.done')) {
-			    echo Done not present
+			    echo "Done not present...."
 			}
 			else {
-			    echo Done exists, task is done...
+			    echo "Done exists, task is done..."
 				return true
 			}
             sleep 1
