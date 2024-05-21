@@ -41,7 +41,7 @@ pipeline {
                 script {
 	                for (int i = 0; i < 15; ++i) {
                         sh '''
-                        pgrep my-task.sh
+                        ps --pid `cat .pid`
                         '''
 			            sleep 1
                     }
