@@ -58,6 +58,10 @@ node {
 
 node {
     script {
+		sh '''
+		echo "pwd is..."
+		pwd
+		'''
 	    while (true) {
             if (!fileExists('mci/scripts/.done')) {
 			    echo "Done not present...."
