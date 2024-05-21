@@ -35,7 +35,8 @@ pipeline {
                 sh '''
                 cd mci/scripts/
                 chmod +x my-task.sh
-                ./my-task.sh
+                JENKINS_NODE_COOKIE=dontKillMe ./my-task.sh &
+                echo $! > .pid
                 '''
             }
         }
