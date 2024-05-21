@@ -1,6 +1,8 @@
 #!/bin/bash
 #set -x
 x=1
+echo "pwd is..."
+pwd
 printf "task running"
 while [ $x -le 10 ]
 do
