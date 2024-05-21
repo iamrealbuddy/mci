@@ -62,7 +62,7 @@ node {
         env
 		echo 1 url is $BUILD_URL
 		echo 2 url is ${BUILD_URL}
-		curl ${BUILD_URL}wfapi/describe
+		curl -s -u my-admin:admin ${BUILD_URL}wfapi/describe
         '''
     }
 }
