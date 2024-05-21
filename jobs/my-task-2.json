@@ -41,9 +41,9 @@ pipeline {
                 script {
 					while (true) {
 						def exitCode = sh script: 'ps `cat mci/scripts/.pid`', returnStatus: true
-                        echo "code is...$exitCode"
 						sleep 1
 						if (exitCode != 0) {
+                            echo "Exit code is...$exitCode, PID not found, task has finished..."
 						    return exitCode
 						}
                     }
