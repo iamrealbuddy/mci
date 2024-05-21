@@ -63,7 +63,7 @@ node {
 		echo 1 url is $BUILD_URL
 		echo 2 url is ${BUILD_URL}
 		curl -s -u my-admin:admin ${BUILD_URL}wfapi/describe
-		curl -s -u my-admin:admin ${BUILD_URL}execution/node/36/
+		curl -s -u my-admin:admin ${BUILD_URL}execution/node/36/wfapi/describe
         '''
     }
 }
