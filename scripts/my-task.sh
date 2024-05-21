@@ -3,6 +3,7 @@
 x=1
 echo "pwd is..."
 pwd
+echo start > .done
 printf "task running"
 while [ $x -le 10 ]
 do
