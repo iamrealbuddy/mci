@@ -41,7 +41,7 @@ pipeline {
                 script {
 	                for (int i = 0; i < 15; ++i) {
                         sh '''
-                        ps --pid `cat .pid`
+                        ps `cat .pid`
                         '''
 			            sleep 1
                     }
