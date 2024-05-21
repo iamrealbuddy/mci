@@ -60,6 +60,7 @@ node {
     script {
         sh '''
         env
+		curl $BUILD_URLwfapi/describe
         '''
     }
 }
