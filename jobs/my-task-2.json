@@ -27,7 +27,7 @@ node {
 }
 
 pipeline {
-    agent {label 'task-agent'}
+    agent any
     stages {
         stage('execute') {
             steps {
@@ -43,7 +43,7 @@ pipeline {
     }
 }
 
-node('task-agent') {
+node {
     script {
 	    while (true) {
             def exitCode = sh script: 'ps `cat mci/scripts/.pid`', returnStatus: true
