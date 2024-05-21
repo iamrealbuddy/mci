@@ -27,7 +27,7 @@ node {
 }
 
 pipeline {
-    agent any
+    agent {label 'task-agent'}
     stages {
         stage('execute') {
             steps {
@@ -38,16 +38,19 @@ pipeline {
                 ./my-task.sh &
                 echo $! > .pid
                 '''
-                script {
-					while (true) {
-						def exitCode = sh script: 'ps `cat mci/scripts/.pid`', returnStatus: true
-						sleep 1
-						if (exitCode != 0) {
-                            echo "Exit code is...$exitCode, PID not found, task has finished..."
-						    return exitCode
-						}
-                    }
-	            }
+            }
+        }
+    }
+}
+
+node('task-agent') {
+    script {
+	    while (true) {
+            def exitCode = sh script: 'ps `cat mci/scripts/.pid`', returnStatus: true
+            sleep 1
+            if (exitCode != 0) {
+                echo "Exit code is...$exitCode, PID not found, task has finished..."
+                return exitCode
             }
         }
     }
