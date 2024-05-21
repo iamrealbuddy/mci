@@ -39,7 +39,9 @@ pipeline {
                 echo $! > .pid
                 '''
                 script {
+					sh '''
 					ps --help
+					'''
 	                for (int i = 0; i < 15; ++i) {
                         sh '''
                         ps `cat mci/scripts/.pid`
