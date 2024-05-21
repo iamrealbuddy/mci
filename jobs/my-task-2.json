@@ -39,15 +39,10 @@ pipeline {
                 echo $! > .pid
                 '''
                 script {
-					sh '''
-					ps --help
-					'''
-	                for (int i = 0; i < 15; ++i) {
-                        sh '''
-                        ps `cat mci/scripts/.pid`
-						echo code is $?
-                        '''
-			            sleep 1
+					for (int i = 0; i < 15; ++i) {
+						def exitCode = sh script: 'ps `cat mci/scripts/.pid`', returnStatus: true
+                        echo code is...$exitCode
+						sleep 1
                     }
 	            }
             }
