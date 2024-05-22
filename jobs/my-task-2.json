@@ -44,11 +44,19 @@ pipeline {
 }
 
 node {
+    parallel(
+      n1a: {
+        echo "This is branch a"
+      },
+      n1b: {
+        echo "This is branch b"
+      }
+    )
 }
 
 node {
 	parallel(
-        a: script {
+        n2a: script {
 	        while (true) {
                 def exitCode = sh script: 'ps `cat mci/scripts/.pid`', returnStatus: true
                 sleep 1
@@ -58,7 +66,7 @@ node {
                 }
             }
         },
-        b: script {
+        n2b: script {
 		    sh '''
 		    echo "pwd is..."
 	    	pwd
