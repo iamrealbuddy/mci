@@ -44,36 +44,38 @@ pipeline {
 }
 
 node {
-    script {
-	    while (true) {
-            def exitCode = sh script: 'ps `cat mci/scripts/.pid`', returnStatus: true
-            sleep 1
-            if (exitCode != 0) {
-                echo "Exit code is...$exitCode, PID not found, task has finished..."
-                return exitCode
-            }
-        }
-    }
 }
 
 node {
-    script {
-		sh '''
-		echo "pwd is..."
-		pwd
-		'''
-		for(i=1; i<21; i++) {
-            sh '''
-			ls -la mci/scripts/
-			'''
-            if (!fileExists('mci/scripts/.done')) {
-			    echo "Done not present...."
-			}
-			else {
-			    echo "Done exists, task is done..."
-			 	return true
-			}
-            sleep 1
+	parallel(
+        a: script {
+	        while (true) {
+                def exitCode = sh script: 'ps `cat mci/scripts/.pid`', returnStatus: true
+                sleep 1
+                if (exitCode != 0) {
+                    echo "Exit code is...$exitCode, PID not found, task has finished..."
+                    return exitCode
+                }
+            }
         }
-    }
+        b: script {
+		    sh '''
+		    echo "pwd is..."
+	    	pwd
+	    	'''
+	    	for(i=1; i<21; i++) {
+                sh '''
+			    ls -la mci/scripts/
+    			'''
+                if (!fileExists('mci/scripts/.done')) {
+	    		    echo "Done not present...."
+		    	}
+			    else {
+    			    echo "Done exists, task is done..."
+	    		 	return true
+	    		}
+                sleep 1
+            }
+		}
+    )
 }
