@@ -33,8 +33,8 @@ pipeline {
                 sh '''
                 pwd
                 ls -l
-                chmod +x mci/sh/hi.sh
-                ./mci/sh/hi.sh
+                chmod +x mci/scripts/hi.sh
+                ./mci/scripts/hi.sh
                 python3 -V
                 '''
             }
