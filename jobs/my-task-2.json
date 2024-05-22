@@ -45,20 +45,9 @@ pipeline {
 
 node {
     parallel(
-      n1a: {
-        echo "This is branch n1a"
-      },
-      n1b: {
-        echo "This is branch n1b"
-      }
-    )
-}
-
-node {
-	parallel(
-        n2a: {
-			echo "This is branch n2a"
-	        while (true) {
+        script-1: {
+            echo "This is branch script-1"
+            while (true) {
                 def exitCode = sh script: 'ps `cat mci/scripts/.pid`', returnStatus: true
                 sleep 1
                 if (exitCode != 0) {
@@ -67,25 +56,25 @@ node {
                 }
             }
         },
-        n2b: {
-			echo "This is branch n2b"
-		    sh '''
-		    echo "pwd is..."
-	    	pwd
-	    	'''
-	    	for(i=1; i<21; i++) {
+        script-2: {
+            echo "This is branch script-2"
+            sh '''
+            echo "pwd is..."
+            pwd
+            '''
+            for(i=1; i<21; i++) {
                 sh '''
-			    ls -la mci/scripts/
-    			'''
+                ls -la mci/scripts/
+                '''
                 if (!fileExists('mci/scripts/.done')) {
-	    		    echo "Done not present...."
-		    	}
-			    else {
-    			    echo "Done exists, task is done..."
-	    		 	return true
-	    		}
+                    echo "Done not present...."
+                }
+                else {
+                    echo "Done exists, task is done..."
+                    return true
+                }
                 sleep 1
             }
-		}
+        }
     )
 }
