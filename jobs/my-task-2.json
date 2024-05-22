@@ -62,20 +62,18 @@ node {
 		echo "pwd is..."
 		pwd
 		'''
-		timeout(time: 20, unit: 'SECONDS') {
-            while (true) {
-			    sh '''
-			    ls -la mci/scripts/
-			    '''
-                if (!fileExists('mci/scripts/.done')) {
-			        echo "Done not present...."
-			    }
-			    else {
-			        echo "Done exists, task is done..."
-			    	return true
-			    }
-                sleep 1
-            }
+		for(i=1; i<21; i++) {
+            sh '''
+			ls -la mci/scripts/
+			'''
+            if (!fileExists('mci/scripts/.done')) {
+			    echo "Done not present...."
+			}
+			else {
+			    echo "Done exists, task is done..."
+			 	return true
+			}
+            sleep 1
         }
     }
 }
