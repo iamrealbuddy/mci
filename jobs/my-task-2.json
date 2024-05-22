@@ -50,29 +50,29 @@ node {
                 def exitCode = sh script: 'ps `cat mci/scripts/.pid`', returnStatus: true
                 sleep 1
                 if (exitCode != 0) {
-                    echo "Script1 - Exit code is...$exitCode, PID not found, task has finished..."
+                    echo "[node][parallel][Script1] Exit code is...$exitCode, PID not found, task has finished..."
                     return exitCode
                 }
                 else {
-                    echo "Script1 - Exit code is...$exitCode, PID found, task is running..."
+                    echo "[node][parallel][Script1] Exit code is...$exitCode, PID found, task is running..."
                 }
             }
         },
         script2: {
             sh '''
-            echo "Script2 - pwd is..."
+            echo "[node][parallel][Script2] pwd is..."
             pwd
             '''
             for(i=1; i<21; i++) {
-				echo "Script2 - dir list..."
+				echo "[node][parallel][Script2] dir list..."
                 sh '''
                 ls -la mci/scripts/
                 '''
                 if (!fileExists('mci/scripts/.done')) {
-                    echo "Script2 - Done not present...."
+                    echo "[node][parallel][Script2] Done not present...."
                 }
                 else {
-                    echo "Script2 - Done exists, task is done..."
+                    echo "[node][parallel][Script2] Done exists, task is done..."
                     return true
                 }
                 sleep 1
