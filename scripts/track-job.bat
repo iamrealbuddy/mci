@@ -13,12 +13,16 @@ rem pause
 rem curl -s -u my-admin:admin http://localhost:8080/job/my-task-3/3/execution/node/3/ws/mci/scripts/.done | findstr -m "done"
 rem echo curl-1 el=%errorlevel%
 
+echo DONE not found
 :loop
 timeout /t 1 >nul
 curl -s -u my-admin:admin http://localhost:8080/job/my-task-4/1/execution/node/3/ws/mci/scripts/.done | findstr -m "done" > nul
-if %errorlevel% equ 0 echo DONE found, my-task-4 is done...
+if %errorlevel% equ 0 (
+  echo.
+  echo DONE found, my-task-4 is done...
+)
 if %errorlevel% equ 1 (
-  echo DONE not found...
+  set /p "=." <nul
   goto :loop
 )
 
