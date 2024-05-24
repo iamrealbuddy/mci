@@ -18,7 +18,7 @@ set "BS="
 set /p "=DONE not found...%COUNTER%" <nul
 :loop
 timeout /t 1 >nul
-curl -s -u my-admin:admin http://localhost:8080/job/my-task-4/1/execution/node/3/ws/mci/scripts/.done | findstr -m "done" > nul
+curl -s -u my-admin:admin http://localhost:8080/job/my-task-4/lastBuild/execution/node/3/ws/mci/scripts/.done | findstr -m "done" > nul
 if %errorlevel% equ 0 (
   echo.
   echo DONE found, my-task-4 is done...
