@@ -13,6 +13,7 @@ rem pause
 rem curl -s -u my-admin:admin http://localhost:8080/job/my-task-3/3/execution/node/3/ws/mci/scripts/.done | findstr -m "done"
 rem echo curl-1 el=%errorlevel%
 
+echo query /job/my-task-4/lastBuild/execution/node/3/ws/mci/scripts/.done
 set COUNTER=0
 set "BS="
 set /p "=DONE not found...%COUNTER%" <nul
