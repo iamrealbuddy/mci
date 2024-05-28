@@ -34,6 +34,7 @@ pipeline {
                 echo 'Running task....';
                 sh '''
                 cd mci/scripts/
+                echo $BUILD_DISPLAY_NAME > .bdn
                 chmod +x my-task.sh
                 JENKINS_NODE_COOKIE=dontKillMe ./my-task.sh &
                 echo $! > .pid

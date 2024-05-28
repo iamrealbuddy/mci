@@ -4,7 +4,7 @@ x=1
 echo "pwd is..."
 pwd
 #echo start > .done
-env
+echo BDN=$BUILD_DISPLAY_NAME
 sleep 5
 printf "task running"
 #for (( i=1; i <= 10; ++i ))
