@@ -29,7 +29,7 @@ echo bdn=%bdn%
 
 echo query my-task-4 %bdn%
 set COUNTER=0
-set "BS="
+set "BS_x19="
 set /p "=DONE not found...%COUNTER%" <nul
 :loop
 timeout /t 1 >nul
@@ -39,7 +39,7 @@ if %errorlevel% equ 0 (
   echo DONE found, my-task-4 %bdn% is done...
 )
 if %errorlevel% equ 1 (
-  set /p "=%BS%%COUNTER%" <nul
+  set /p "=%BS_x19%DONE not found...%COUNTER%" <nul
   set /A COUNTER+=1
   goto :loop
 )
