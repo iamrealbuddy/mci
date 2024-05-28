@@ -13,6 +13,8 @@ rem pause
 rem curl -s -u my-admin:admin http://localhost:8080/job/my-task-3/3/execution/node/3/ws/mci/scripts/.done | findstr -m "done"
 rem echo curl-1 el=%errorlevel%
 
+cmd /c type D:\dev\github\mci\scripts\bdn.groovy ^| D:\app\dev\jdk-18.0.2\bin\java -jar D:\dev\apps\jenkins\lib\2.459\cli-2.459.jar -auth my-admin:admin -s http://localhost:8080 groovysh
+
 echo query /job/my-task-4/lastBuild/execution/node/3/ws/mci/scripts/.done
 set COUNTER=0
 set "BS="
