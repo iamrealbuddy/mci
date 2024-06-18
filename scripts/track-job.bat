@@ -27,7 +27,14 @@ FOR /F "tokens=* USEBACKQ" %%F IN (`curl -s -u my-admin:admin http://localhost:8
 )
 echo bdn=%bdn%
 
-echo query my-task-4 %bdn%
+rem $BUILD_NUMBER
+set bun=
+FOR /F "tokens=* USEBACKQ" %%F IN (`curl -s -u my-admin:admin http://localhost:8080/job/my-task-4/api/xml ^| D:\app\unixutils\grep -o "<number>[0-9]*</number>" ^| D:\app\unixutils\head -1 ^| D:\app\unixutils\grep -oPm1 "(?<=<number>)[^<]+"`) DO (
+  set bun=%%F
+)
+echo bun=%bun%
+
+echo query my-task-4 build: %bun%
 set COUNTER=0
 set "BS_x19="
 set /p "=DONE not found...%COUNTER%" <nul
