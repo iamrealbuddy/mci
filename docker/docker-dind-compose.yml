@@ -1,0 +1,35 @@
+version: "3"
+services:
+    docker:
+        container_name: jenkins-docker
+        privileged: true
+        networks:
+            jenkins:
+                aliases:
+                    - docker
+        environment:
+            - DOCKER_TLS_CERTDIR=/certs
+            - TZ=Asia/Kolkata
+        volumes:
+#            - /mnt/d/dev/apps/jenkins/certs:/certs/client
+            - jenkins-docker-certs:/certs/client
+#            - /mnt/d/dev/apps/jenkins/data:/var/jenkins_home
+            - /home/linux/data:/var/jenkins_home
+#            - jenkins-data:/var/jenkins_home
+            - /etc/timezone:/etc/timezone:ro
+            - /etc/localtime:/etc/localtime:ro
+        ports:
+            - 2376:2376
+        image: docker:dind
+networks:
+    jenkins:
+#        driver: bridge
+        external: true
+#        name: jenkins
+volumes:
+    jenkins-docker-certs:
+        external:
+            name: jenkins-docker-certs
+#    jenkins-data:
+#        external:
+#            name: jenkins-data

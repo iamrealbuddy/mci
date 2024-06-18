@@ -1,0 +1,33 @@
+version: "3"
+services:
+    myjenkins-blueocean:
+        container_name: jenkins-blueocean
+        restart: on-failure
+        networks:
+            - jenkins
+        environment:
+            - DOCKER_HOST=tcp://docker:2376
+            - DOCKER_CERT_PATH=/certs/client
+            - DOCKER_TLS_VERIFY=1
+            - TZ=Asia/Kolkata
+        volumes:
+#            - jenkins-data:/var/jenkins_home
+#            - /mnt/d/dev/apps/jenkins/data:/var/jenkins_home
+            - /home/linux/data:/var/jenkins_home
+#            - /mnt/d/dev/apps/jenkins/certs:/certs/client:ro
+            - jenkins-docker-certs:/certs/client:ro
+        ports:
+            - 8080:8080
+            - 50000:50000
+        image: my-jeb:2.462
+networks:
+    jenkins:
+        external: true
+#        name: jenkins
+volumes:
+#    jenkins-data:
+#        external:
+#            name: jenkins-data
+    jenkins-docker-certs:
+        external:
+            name: jenkins-docker-certs
