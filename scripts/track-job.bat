@@ -47,6 +47,9 @@ if %errorlevel% equ 0 (
 )
 if %errorlevel% equ 1 (
   set /p "=%BS_x19%DONE not found...%COUNTER%" <nul
+  if %COUNTER% equ 25 (
+    goto :eof
+  )
   set /A COUNTER+=1
   goto :loop
 )
