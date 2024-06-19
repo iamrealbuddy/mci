@@ -7,7 +7,7 @@ echo.
 
 set /p stk=start docker stack....
 if "%stk%" neq "" (
- start run-new.bat
+ start run-latest.bat
  pause
 )
 
@@ -17,7 +17,7 @@ set scm=D:\dev\github\mci
 set jenkh=D:\dev\apps\jenkins
 set javah=D:\app\dev\jdk-18.0.2
 set cli-jar-old=%jenkh%\data\war\WEB-INF\lib\cli-2.455.jar
-set cli-jar=%jenkh%\lib\2.459\cli-2.459.jar
+set cli-jar=%jenkh%\lib\2.462\cli-2.462.jar
 
 echo.
 echo job list...
