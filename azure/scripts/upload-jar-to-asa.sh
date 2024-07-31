@@ -18,6 +18,13 @@ if [[ -z "$ASA_SERVICE_NAME" ]]; then
   exit 1
 fi
 
+echo SUBSCRIPTION_ID is $SUBSCRIPTION_ID >> $AZ_SCRIPTS_OUTPUT_PATH
+echo RESOURCE_GROUP is $RESOURCE_GROUP >> $AZ_SCRIPTS_OUTPUT_PATH
+echo ASA_SERVICE_NAME is $ASA_SERVICE_NAME >> $AZ_SCRIPTS_OUTPUT_PATH
+echo MY_APP_NAME is $MY_APP_NAME >> $AZ_SCRIPTS_OUTPUT_PATH
+echo AZURE_KEYVAULT_ENABLED is $AZURE_KEYVAULT_ENABLED >> $AZ_SCRIPTS_OUTPUT_PATH
+echo AZURE_KEYVAULT_URI is $AZURE_KEYVAULT_URI >> $AZ_SCRIPTS_OUTPUT_PATH
+
 get_resource_upload_url_result=$(az rest -m post -u "https://management.azure.com/subscriptions/$SUBSCRIPTION_ID/resourceGroups/$RESOURCE_GROUP/providers/Microsoft.AppPlatform/Spring/$ASA_SERVICE_NAME/apps/$MY_APP_NAME/getResourceUploadUrl?api-version=2023-05-01-preview")
 upload_url=$(echo $get_resource_upload_url_result | jq -r '.uploadUrl')
 relative_path=$(echo $get_resource_upload_url_result | jq -r '.relativePath')
@@ -48,7 +55,12 @@ az storage file upload -s $share_name --source $path --account-name  $storage_ac
 
 # Write outputs to deployment script output path
 result=$(jq -n -c --arg relativePath $relative_path '{relativePath: $relativePath}')
-echo $result > $AZ_SCRIPTS_OUTPUT_PATH
+echo relativePath result is $result >> $AZ_SCRIPTS_OUTPUT_PATH
 
 # Delete uami generated before exiting the script
 az identity delete --ids ${AZ_SCRIPTS_USER_ASSIGNED_IDENTITY}
+
+# Update spring app environment
+get_asa_env_update_result=$(az spring app update --resource-group %AZ_RESOURCE_GROUP% --service %AZ_SPRING_CLOUD% --name $MY_APP_NAME --env AZURE_KEYVAULT_ENABLED=$AZURE_KEYVAULT_ENABLED AZURE_KEYVAULT_URI=$AZURE_KEYVAULT_URI)
+echo get_asa_env_update_result is $get_asa_env_update_result >> $AZ_SCRIPTS_OUTPUT_PATH
+
